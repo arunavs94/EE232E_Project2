@@ -4,10 +4,10 @@ closeAllConnections()
 rm(list=ls())
 
 library('igraph')
-library('readr')
+# library('readr')
 
 # Set to appropriate working director
-setwd("~/Desktop/Project2/EE232E_Project2/project_2_data")
+# setwd("~/Desktop/Project2/EE232E_Project2/project_2_data")
 
 #### Only need to run once (Have already run, data stored in -> CorrectActorsActresses.RData) ####
 
@@ -96,9 +96,16 @@ setwd("~/Desktop/Project2/EE232E_Project2/project_2_data")
 #### END ####
 
 # # Load data
-load("~/Desktop/Project2/EE232E_Project2/project_2_data/CorrectActorsActresses.RData")
+# load("CorrectActorsActresses.RData")
 
 # Taking subset of dataframe corresponding to only core nodes
 core_actors.movies = actors.movies[actors.movies$V1 %in% correct_actors, ]
 core_actress.movies = actress.movies[actress.movies$V1 %in% correct_actresses, ]
 core_total.movies = rbind(core_actors.movies, core_actress.movies)
+
+write.csv(core_total.movies[c(TRUE,FALSE)],file = "total_actors.txt") # write to CSV removing all NA
+
+# # use the following to read in CSV
+# temp = read.csv("total_actors.txt")
+# temp = temp[2:9] #remove first column (true indicies from original file)
+
