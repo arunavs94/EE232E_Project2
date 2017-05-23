@@ -38,15 +38,15 @@ def main():
 		# organize data into dictionaries
 		actors_movies[actor] = tmpMovies
 		[movies_actors[movie].append(actor) for movie in tmpMovies]
-		actors_index[actor] = index
+		actors_index[actor] = index + 1
 
 		## Test
-		# if index == 10000:
-		# 	break
+		if index == 10000:
+			break
 
 	# should pickle the above result....
 
-	workbook = xlsxwriter.Workbook('node_list_version.xlsx')
+	workbook = xlsxwriter.Workbook('test_list_2.xlsx')
 	worksheet = workbook.add_worksheet()
 
 	col = 0
@@ -59,8 +59,8 @@ def main():
 		print idx
 
 		# Test
-		# if idx == 10001:
-		# 	break
+		if idx == 10001:
+			break
 
 		match = defaultdict(float)
 		personalMovies = len(actors_movies[actor])
@@ -78,16 +78,15 @@ def main():
 		for key, val in match.iteritems():
 
 			# write actor
-			worksheet.write(row,col,key[0])
+			worksheet.write(row,col,actors_index[key[0]])
 
 			# write subActor
-			worksheet.write(row,col+1,key[1])
+			worksheet.write(row,col+1,actors_index[key[1]])
 
 			# write weight
 			worksheet.write(row,col+2,val/personalMovies)
 
 			row = row + 1
-
 
 
 	###### GRAVEYARD ######
@@ -110,7 +109,10 @@ def main():
 	# movies = set(movies)
 	# movies = list(movies)
 
-	# worksheet.write(row,col,actors_index[key[0]])
+	# # write actor (with name)
+	# worksheet.write(row,col,key[0])
+
+	# # write subActor (with name)
 	# worksheet.write(row,col+1,actors_index[key[1]])
 
 	########################
