@@ -40,7 +40,6 @@ def main():
 		if numMovies >= 5:
 			actresses.append(tmp)
 
-
 	with open("total_snacktors.csv", "wb") as f:
 	    writer = csv.writer(f)
 	    writer.writerows(actors)
