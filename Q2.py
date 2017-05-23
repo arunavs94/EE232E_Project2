@@ -41,12 +41,12 @@ def main():
 		actors_index[actor] = index + 1
 
 		## Test
-		if index == 10000:
-			break
+		# if index == 10000:
+		# 	break
 
 	# should pickle the above result....
 
-	workbook = xlsxwriter.Workbook('test_list_2.xlsx')
+	workbook = xlsxwriter.Workbook('test_list.xlsx')
 	worksheet = workbook.add_worksheet()
 
 	col = 0
@@ -58,9 +58,9 @@ def main():
 	for idx, actor in enumerate(actors): # [A1,A2,...,AM] for M total actors
 		print idx
 
-		# Test
-		if idx == 10001:
-			break
+		# # Test
+		# if idx == 10001:
+		# 	break
 
 		match = defaultdict(float)
 		personalMovies = len(actors_movies[actor])
@@ -77,11 +77,11 @@ def main():
 		# write out to excel sheet
 		for key, val in match.iteritems():
 
-			# write actor
-			worksheet.write(row,col,actors_index[key[0]])
+			# write actor (with name)
+			worksheet.write(row,col,key[0])
 
-			# write subActor
-			worksheet.write(row,col+1,actors_index[key[1]])
+			# write subActor (with name)
+			worksheet.write(row,col+1,key[1])
 
 			# write weight
 			worksheet.write(row,col+2,val/personalMovies)
@@ -113,6 +113,12 @@ def main():
 	# worksheet.write(row,col,key[0])
 
 	# # write subActor (with name)
+	# worksheet.write(row,col+1,key[1])
+
+	# # write actor (with index)
+	# worksheet.write(row,col,actors_index[key[0]])
+
+	# # write subActor (with index)
 	# worksheet.write(row,col+1,actors_index[key[1]])
 
 	########################
