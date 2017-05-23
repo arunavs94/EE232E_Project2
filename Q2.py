@@ -20,8 +20,9 @@ def main():
 
 	actors_movies = {}
 	movies_actors = defaultdict(list)
+	actors_index = {}
 
-	# create dict with actors as keys, and their movies as values | create dict with movies as keys and its actors as values
+	# create dict with actors as keys, and their movies as values | create dict with movies as keys and its actors as values | create dict with actors as key and index as value
 	for row in total_data.iterrows():
 		index, data = row
 		print index
@@ -37,6 +38,7 @@ def main():
 		# organize data into dictionaries
 		actors_movies[actor] = tmpMovies
 		[movies_actors[movie].append(actor) for movie in tmpMovies]
+		actors_index[actor] = index
 
 		## Test
 		# if index == 10000:
@@ -44,7 +46,7 @@ def main():
 
 	# should pickle the above result....
 
-	workbook = xlsxwriter.Workbook('node_list.xlsx')
+	workbook = xlsxwriter.Workbook('node_list_version.xlsx')
 	worksheet = workbook.add_worksheet()
 
 	col = 0
@@ -56,7 +58,7 @@ def main():
 	for idx, actor in enumerate(actors): # [A1,A2,...,AM] for M total actors
 		print idx
 
-		## Test
+		# Test
 		# if idx == 10001:
 		# 	break
 
@@ -74,9 +76,16 @@ def main():
 
 		# write out to excel sheet
 		for key, val in match.iteritems():
+
+			# write actor
 			worksheet.write(row,col,key[0])
+
+			# write subActor
 			worksheet.write(row,col+1,key[1])
+
+			# write weight
 			worksheet.write(row,col+2,val/personalMovies)
+
 			row = row + 1
 
 
@@ -100,6 +109,10 @@ def main():
 	# # create a unique list of movies
 	# movies = set(movies)
 	# movies = list(movies)
+
+	# worksheet.write(row,col,actors_index[key[0]])
+	# worksheet.write(row,col+1,actors_index[key[1]])
+
 	########################
 
 if __name__ == '__main__':
