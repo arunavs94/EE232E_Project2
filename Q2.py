@@ -21,7 +21,7 @@ def main():
 	actors_movies = {}
 	movies_actors = defaultdict(list)
 
-	# create dict with actors as keys, and their movies as values
+	# create dict with actors as keys, and their movies as values | create dict with movies as keys and its actors as values
 	for row in total_data.iterrows():
 		index, data = row
 		print index
@@ -38,6 +38,7 @@ def main():
 		actors_movies[actor] = tmpMovies
 		[movies_actors[movie].append(actor) for movie in tmpMovies]
 
+		## Test
 		# if index == 10000:
 		# 	break
 
@@ -50,16 +51,20 @@ def main():
 	row = 0
 
 	# can make these all into list comps to fun faster
+
+	# Generating weights between actors and writing out to file
 	for idx, actor in enumerate(actors): # [A1,A2,...,AM] for M total actors
 		print idx
+
+		## Test
 		# if idx == 10001:
 		# 	break
+
 		match = defaultdict(float)
 		personalMovies = len(actors_movies[actor])
 
 		for movie in actors_movies[actor]: # [M1,M2,...,MN] for N total movies for actor m
 
-			
 			for subActor in movies_actors[movie]: # [sA1,sA2,...sAP] for P total actors in movie n
 				pair = (actor,subActor)
 
@@ -67,7 +72,7 @@ def main():
 					match[pair] = match[pair] + 1
 		
 
-		# # write out to excel sheet
+		# write out to excel sheet
 		for key, val in match.iteritems():
 			worksheet.write(row,col,key[0])
 			worksheet.write(row,col+1,key[1])
@@ -75,13 +80,6 @@ def main():
 			row = row + 1
 
 
-
-
-
-
-
-
-	
 
 	###### GRAVEYARD ######
 	# # create list for all movies
