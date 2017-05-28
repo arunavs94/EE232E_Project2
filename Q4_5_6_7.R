@@ -68,6 +68,7 @@ cat("\n \n ############## Question 6 ############## \n")
 
 nodes = V(g1_simple)$name # all nodes names in g1_simple graph
 
+  #Batman
 movie_name_bat = "Batman v Superman: Dawn of Justice (2016)  "
 
 batman = which(nodes == movie_name_bat) # find index for batman node
@@ -100,7 +101,72 @@ cat("   ",batman_5NN_names[3]," with weight ",sorted_weights$x[3],"\n")
 cat("   ",batman_5NN_names[4]," with weight ",sorted_weights$x[4],"\n")
 cat("   ",batman_5NN_names[5]," with weight ",sorted_weights$x[5],"\n \n")
 
-# REPEAT LINES 71-99 FOR OTHER TWO MOVIES (NEED FULL node_list4.txt file)
+# Mission Impossible 
+movie_name_misimp = "Mission - Impossible - Rogue Nation (2015)  "
+
+misimp = which(nodes == movie_name_misimp) # find index for misimp node
+misimp_comm = comm_struct$membership[misimp] # find belonging community
+misimp_neighbors = as.vector(neighbors(g1_simple , misimp , mode = "all"))
+
+# generate node pair list to get edge ids (N1,N2 , N1,N3 , ...)
+misimp_nvec = numeric()
+for( i in misimp_neighbors){
+  misimp_nvec = c(misimp_nvec,misimp,i) 
+}
+
+misimp_edge_ids = get.edge.ids(g1_simple,misimp_nvec,directed = FALSE) # get all edges ids with misimp nodes
+misimp_edge_weights = E(g1_simple , directed = FALSE)$weights[misimp_edge_ids] # get corresponding weights
+sorted_weights = sort(misimp_edge_weights , decreasing = TRUE , index.return = TRUE)
+
+# take first 5 sorted idx and convert back to movie name
+misimp_5NN_idx = misimp_edge_ids[sorted_weights$ix[1:5]]
+misimp_5NN_pairs = ends(g1_simple,misimp_5NN_idx) # outputs a matrix
+misimp_5NN_names = misimp_5NN_pairs[which(misimp_5NN_pairs != movie_name_misimp)]
+
+# Print statements
+cat("\"",sub("\\s+$" , "", movie_name_misimp) , "\" is in community # ",misimp_comm ,
+    " labeled with genre(s): " , tot_comm_genres[[misimp_comm,1]] , "\n \n")
+
+cat("The 5 Nearest neightbors of \"",sub("\\s+$", "", movie_name_misimp), "\" are: \n")
+cat("   ",misimp_5NN_names[1]," with weight ",sorted_weights$x[1],"\n")
+cat("   ",misimp_5NN_names[2]," with weight ",sorted_weights$x[2],"\n")
+cat("   ",misimp_5NN_names[3]," with weight ",sorted_weights$x[3],"\n")
+cat("   ",misimp_5NN_names[4]," with weight ",sorted_weights$x[4],"\n")
+cat("   ",misimp_5NN_names[5]," with weight ",sorted_weights$x[5],"\n \n")
+
+#Minions
+
+movie_name_minions = "Minions (2015)  "
+
+minions = which(nodes == movie_name_minions) # find index for minions node
+minions_comm = comm_struct$membership[minions] # find belonging community
+minions_neighbors = as.vector(neighbors(g1_simple , minions , mode = "all"))
+
+# generate node pair list to get edge ids (N1,N2 , N1,N3 , ...)
+minions_nvec = numeric()
+for( i in minions_neighbors){
+  minions_nvec = c(minions_nvec,minions,i) 
+}
+
+minions_edge_ids = get.edge.ids(g1_simple,minions_nvec,directed = FALSE) # get all edges ids with minions nodes
+minions_edge_weights = E(g1_simple , directed = FALSE)$weights[minions_edge_ids] # get corresponding weights
+sorted_weights = sort(minions_edge_weights , decreasing = TRUE , index.return = TRUE)
+
+# take first 5 sorted idx and convert back to movie name
+minions_5NN_idx = minions_edge_ids[sorted_weights$ix[1:5]]
+minions_5NN_pairs = ends(g1_simple,minions_5NN_idx) # outputs a matrix
+minions_5NN_names = minions_5NN_pairs[which(minions_5NN_pairs != movie_name_minions)]
+
+# Print statements
+cat("\"",sub("\\s+$" , "", movie_name_minions) , "\" is in community # ",minions_comm ,
+    " labeled with genre(s): " , tot_comm_genres[[minions_comm,1]] , "\n \n")
+
+cat("The 5 Nearest neightbors of \"",sub("\\s+$", "", movie_name_misimp), "\" are: \n")
+cat("   ",minions_5NN_names[1]," with weight ",sorted_weights$x[1],"\n")
+cat("   ",minions_5NN_names[2]," with weight ",sorted_weights$x[2],"\n")
+cat("   ",minions_5NN_names[3]," with weight ",sorted_weights$x[3],"\n")
+cat("   ",minions_5NN_names[4]," with weight ",sorted_weights$x[4],"\n")
+cat("   ",minions_5NN_names[5]," with weight ",sorted_weights$x[5],"\n \n")
 
 ############## Question 7 ##############
 cat("\n \n ############## Question 7 ############## \n")
@@ -111,7 +177,8 @@ movie_rating$V2 = NULL
 colnames(movie_rating) = c("movie","rating")
 rating_movie_list = as.vector(movie_rating$movie) # list of movies in movie_rating file
 all_ratings = as.vector(movie_rating$rating) # list of ratings in movie_rating file (note: indicies correspond to rating_movie_list)
-
+  
+  #Batman
   # predict using average ratings of neighbors
 batman_neighbors_names = nodes[batman_neighbors] # get all neighboring nodes names
 batman_neigh_rating_idx = match(sub("\\s+$", "", batman_neighbors_names) , rating_movie_list , nomatch = 0) # compare titles to rating list
@@ -129,5 +196,38 @@ batman_comm_avg_rating = mean(all_ratings[batman_comm_rating_idx]) # avg ratings
 cat("Predicted rating for \"" , sub("\\s+$", "", movie_name_bat) 
     , "\"  using ratings of movies in the same community: " , batman_comm_avg_rating , "\n \n")
 
-# REPEAT LINES 115-130 FOR OTHER TWO MOVIES (NEED FULL node_list4.txt file)
+# Mission Impossible
+# predict using average ratings of neighbors
+misimp_neighbors_names = nodes[misimp_neighbors] # get all neighboring nodes names
+misimp_neigh_rating_idx = match(sub("\\s+$", "", misimp_neighbors_names) , rating_movie_list , nomatch = 0) # compare titles to rating list
+misimp_neigh_rating_idx = misimp_neigh_rating_idx[ which(misimp_neigh_rating_idx != 0)] # remove zeros
+misimp_neigh_avg_rating = mean(all_ratings[misimp_neigh_rating_idx]) # avg ratings
+cat("Predicted rating for \"" , sub("\\s+$", "", movie_name_misimp) , 
+    "\"  using ratings of neighbors: " , misimp_neigh_avg_rating ,"\n")
 
+# predict using average ratings of community
+nodes_misimp_comm = which(comm_struct$membership == misimp_comm) # find all ndoes in the same community as batman 
+misimp_comm_names = nodes[nodes_misimp_comm] # get all node names in the same community
+misimp_comm_rating_idx = match(sub("\\s+$", "", misimp_comm_names) , rating_movie_list , nomatch = 0) # compare titles to rating list
+misimp_comm_rating_idx = misimp_comm_rating_idx[ which(misimp_comm_rating_idx != 0)] # remove zeros
+misimp_comm_avg_rating = mean(all_ratings[misimp_comm_rating_idx]) # avg ratings
+cat("Predicted rating for \"" , sub("\\s+$", "", movie_name_misimp) 
+    , "\"  using ratings of movies in the same community: " , misimp_comm_avg_rating , "\n \n")
+
+# Minions
+# predict using average ratings of neighbors
+minions_neighbors_names = nodes[minions_neighbors] # get all neighboring nodes names
+minions_neigh_rating_idx = match(sub("\\s+$", "", minions_neighbors_names) , rating_movie_list , nomatch = 0) # compare titles to rating list
+minions_neigh_rating_idx = minions_neigh_rating_idx[ which(minions_neigh_rating_idx != 0)] # remove zeros
+minions_neigh_avg_rating = mean(all_ratings[minions_neigh_rating_idx]) # avg ratings
+cat("Predicted rating for \"" , sub("\\s+$", "", movie_name_minions) , 
+    "\"  using ratings of neighbors: " , minions_neigh_avg_rating ,"\n")
+
+# predict using average ratings of community
+nodes_minions_comm = which(comm_struct$membership == minions_comm) # find all ndoes in the same community as batman 
+minions_comm_names = nodes[nodes_minions_comm] # get all node names in the same community
+minions_comm_rating_idx = match(sub("\\s+$", "", minions_comm_names) , rating_movie_list , nomatch = 0) # compare titles to rating list
+minions_comm_rating_idx = minions_comm_rating_idx[ which(minions_comm_rating_idx != 0)] # remove zeros
+minions_comm_avg_rating = mean(all_ratings[minions_comm_rating_idx]) # avg ratings
+cat("Predicted rating for \"" , sub("\\s+$", "", movie_name_minions) 
+    , "\"  using ratings of movies in the same community: " , minions_comm_avg_rating , "\n \n")
