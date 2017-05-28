@@ -1,5 +1,5 @@
 import csv
-import pandas
+import pandas as pd
 from pprint import pprint
 from collections import defaultdict
 import xlsxwriter
@@ -8,15 +8,18 @@ import math
 def main():
 
 	# .txt file generated from previous part
-	filename = "total_actors.txt"
+	filename = "tot_actors_fixed.csv"
 
 	# read data into dataframe
-	total_data = pandas.read_csv(filename)
+	total_data = pd.read_csv(filename, header=None)
+
+	## Test to see how data is read in
+	# print total_data
+	# return 0
+	########
 
 	# create list for actors' names
-	actors = total_data["V1"].tolist()
-
-	print len(actors)
+	actors = total_data[0].tolist()
 
 	actors_movies = {}
 	movies_actors = defaultdict(list)
@@ -32,8 +35,8 @@ def main():
 		tmp = [item for item in tmp if type(item) != float]
 
 		# seperate out the movies and the corresponding actor
-		tmpMovies = tmp[2:len(tmp)]
-		actor = tmp[1]
+		tmpMovies = tmp[1:len(tmp)]
+		actor = tmp[0]
 
 		# organize data into dictionaries
 		actors_movies[actor] = tmpMovies
@@ -46,11 +49,7 @@ def main():
 
 	# should pickle the above result....
 
-	workbook = xlsxwriter.Workbook('test_list.xlsx')
-	worksheet = workbook.add_worksheet()
-
-	col = 0
-	row = 0
+	text_file = open("node_list2.txt", "w")
 
 	# can make these all into list comps to fun faster
 
@@ -74,19 +73,19 @@ def main():
 					match[pair] = match[pair] + 1
 		
 
-		# write out to excel sheet
+		# write out to a .txt file
 		for key, val in match.iteritems():
 
-			# write actor (with name)
-			worksheet.write(row,col,key[0])
+			actor_ = str(key[0])
+			subActor_ = str(key[1])
 
-			# write subActor (with name)
-			worksheet.write(row,col+1,key[1])
 
-			# write weight
-			worksheet.write(row,col+2,val/personalMovies)
-
-			row = row + 1
+			text_file.write("\"" + actor_ + "\"")
+			text_file.write(',')
+			text_file.write("\"" + subActor_ + "\"")
+			text_file.write(',')
+			text_file.write(str(val/personalMovies))
+			text_file.write('\n')
 
 
 	###### GRAVEYARD ######
@@ -109,6 +108,12 @@ def main():
 	# movies = set(movies)
 	# movies = list(movies)
 
+	# workbook = xlsxwriter.Workbook('test_list.xlsx')
+	# worksheet = workbook.add_worksheet()
+
+	# col = 0
+	# row = 0
+
 	# # write actor (with name)
 	# worksheet.write(row,col,key[0])
 
@@ -121,6 +126,19 @@ def main():
 	# # write subActor (with index)
 	# worksheet.write(row,col+1,actors_index[key[1]])
 
+	# # write out to excel sheet
+		# for key, val in match.iteritems():
+
+		# 	# write actor (with name)
+		# 	worksheet.write(row,col,key[0])
+
+		# 	# write subActor (with name)
+		# 	worksheet.write(row,col+1,key[1])
+
+		# 	# write weight
+		# 	worksheet.write(row,col+2,val/personalMovies)
+
+		# 	row = row + 1
 	########################
 
 if __name__ == '__main__':
