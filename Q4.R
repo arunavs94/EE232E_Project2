@@ -17,7 +17,7 @@ movies = as.vector(movie_genre$movie)
 genre_master = as.vector(unique(movie_genre$genre)) #create vector mapping genre to a specific index
 
 
-Graph.data = read.delim("data_files/node_list4_smovies.txt",sep = ",",header=FALSE,stringsAsFactors = FALSE)
+Graph.data = read.delim("data_files/node_list4_smovies.txt",sep = ",",header=FALSE,stringsAsFactors = FALSE) #generate from Q4.py
 colnames(Graph.data) = c("Node 1", "Node 2", "weights")
 g1 = graph.data.frame(Graph.data,directed = FALSE)
 
