@@ -102,7 +102,7 @@ cat("   ",batman_5NN_names[4]," with weight ",sorted_weights$x[4],"\n")
 cat("   ",batman_5NN_names[5]," with weight ",sorted_weights$x[5],"\n \n")
 
 # Mission Impossible 
-movie_name_misimp = "Mission - Impossible - Rogue Nation (2015)  "
+movie_name_misimp = "Mission: Impossible - Rogue Nation (2015)  "
 
 misimp = which(nodes == movie_name_misimp) # find index for misimp node
 misimp_comm = comm_struct$membership[misimp] # find belonging community
