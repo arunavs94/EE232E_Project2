@@ -2,14 +2,16 @@ import csv
 import pandas as pd
 from pprint import pprint
 from collections import defaultdict
-import xlsxwriter
+
 import math
 
 def main():
 
 	# Read from original files
-	actors_filepath = "/Users/Arunav/Desktop/Project2/EE232E_Project2/project_2_data/actor_movies.txt"
-	actresses_filepath = "/Users/Arunav/Desktop/Project2/EE232E_Project2/project_2_data/actress_movies.txt"
+
+	actors_filepath = "C:/Users/Steven/Desktop/EE232E_Project2/data_files/actor_movies.txt"
+	actresses_filepath = "C:/Users/Steven/Desktop/EE232E_Project2/data_files/actress_movies.txt"
+
 
 	with open(actors_filepath) as f:
 	    reader_actors = csv.reader(f, delimiter="\t")
@@ -27,10 +29,14 @@ def main():
 		# progress check
 		print idx
 
-		#### To test #####
-		# if idx == 50000:
-		# 	break
-		##################
+
+		### To test #####
+		if idx == 50000:
+			break
+		#################
+
+
+
 
 		tmp = [item for item in rows if item != '']
 		actors.append(tmp)
@@ -40,10 +46,13 @@ def main():
 		# progress check
 		print idx
 
-		#### To test #####
-		# if idx == 50000:
-		# 	break
-		##################
+
+		### To test #####
+		if idx == 50000:
+			break
+		#################
+
+
 
 		tmp = [item for item in rows if item != '']
 		actresses.append(tmp)
@@ -100,7 +109,9 @@ def main():
 	# generate list of movies with at least 5 actors
 	core_movies = movies_actors_fin.keys()
 
-	text_file = open("node_list4_snacktors.txt", "w")
+
+	text_file = open("data_files/node_list4_snacktors.txt", "w")
+
 
 	# Generate movie-subMovie pairs and weights, write to file
 	for idx, movie in enumerate(core_movies): # [M1, M2, ... , MN] for N total movies

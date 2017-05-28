@@ -12,8 +12,8 @@ library('igraph')
 #### Only need to run once (Have already run, data stored in -> CorrectActorsActresses.RData) ####
 
 # # Read in data from .txt files
-# actors.movies = read_delim("actor_movies.txt" , col_names = paste0("V",seq_len(15)), delim = "\t", quote = "\"")
-# actress.movies = read_delim("actress_movies.txt" , col_names = paste0("V",seq_len(15)), delim = "\t")
+actors.movies = read_delim("actor_movies.txt" , col_names = paste0("V",seq_len(15)), delim = "\t", quote = "\"")
+actress.movies = read_delim("actress_movies.txt" , col_names = paste0("V",seq_len(15)), delim = "\t")
 
 # Search for actors and actresses with at least 5 movies 
 
@@ -91,12 +91,12 @@ library('igraph')
 # 
 
 ## Saving the .RData 
-# save.image(file = 'CorrectActorsActresses.RData')
+save.image(file = 'CorrectActorsActresses.RData')
 
 #### END ####
 
 # # Load data
-# load("CorrectActorsActresses.RData")
+load("CorrectActorsActresses.RData")
 
 # Taking subset of dataframe corresponding to only core nodes
 core_actors.movies = actors.movies[actors.movies$V1 %in% correct_actors, ]
