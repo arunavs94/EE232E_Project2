@@ -2,6 +2,7 @@ import pandas
 import numpy as np
 import csv
 from pprint import pprint
+import re
 
 def main():
 
@@ -20,6 +21,7 @@ def main():
 	actors = []
 	actresses = []
 
+
 	for idx, rows in enumerate(data_actors):
 		# progress check
 		print idx
@@ -28,7 +30,16 @@ def main():
 		numMovies = len(tmp) - 1 
 
 		if numMovies >= 5:
+
+			# remove everything after the year
+			for idx, movie in enumerate(tmp[1:]):
+				
+				elementEnd = movie.find(')')
+				tmp[idx+1] = movie[0:elementEnd+1]
+
 			actors.append(tmp)
+	
+
 
 	for idx, rows in enumerate(data_actresses):
 		# progress check
@@ -38,14 +49,26 @@ def main():
 		numMovies = len(tmp) - 1 
 
 		if numMovies >= 5:
+
+			# remove everything after the year
+			for idx, movie in enumerate(tmp[1:]):
+				
+				elementEnd = movie.find(')')
+				tmp[idx+1] = movie[0:elementEnd+1]
+
 			actresses.append(tmp)
 
-	with open("total_snacktors.csv", "wb") as f:
+	print len(actors) + len(actresses)
+
+	with open("total_actors.csv", "wb") as f:
 	    writer = csv.writer(f)
 	    writer.writerows(actors)
 	    writer.writerows(actresses)
 
+# GRAVEYARD #
 
+# define regex
+	# pattern = re.compile('\((?P<year>[0-9][0-9][0-9][0-9])\)')
 
 
 
