@@ -2,13 +2,13 @@ import csv
 import pandas as pd
 from pprint import pprint
 from collections import defaultdict
-
+import pickle
 import math
 
 def main():
 
 	# .txt file generated from previous part
-	filename = "data_files/total_5_actors_fixed.csv"
+	filename = "data_files/total_10_actors_fixed.csv"
 
 	# read data into dataframe
 	total_data = pd.read_csv(filename, header=None)
@@ -18,6 +18,7 @@ def main():
 
 	# create dictionaries
 	actors_movies = {}
+	actors_movies_fin = {}
 	movies_actors = defaultdict(list)
 	movies_actors_fin = defaultdict(list)
 	actors_index = {}
@@ -55,17 +56,34 @@ def main():
 		# progress check
 		print "Core movie filter progress: ", (float(counter))/(len(movies_actors))
 
-		if len(val) >= 5:
+		if len(val) >= 10:
 			movies_actors_fin[key] = val
 		counter = counter + 1
 
 	# generate list of movies with at least 5 actors
 	core_movies = movies_actors_fin.keys()
 
+	##### Pickle this list for use in Q8_directors.py ##### (only run once)
+	#
+	# with open('core_movies.pkl', 'wb') as f:
+	# 	pickle.dump(core_movies, f)
+	#
+	# return 0
+	#
+	#######################################################
+
 	text_file = open("data_files/node_list4_snacktors.txt", "w")
 
 	wrong_count = 0
 	errors = []
+
+	# filter out movies from actors' lists that have less than 5 movies
+	counter = 0
+	for key, val in actors_movies.iteritems():
+		print "Core movie filter out from actor_movies progress: ", (float(counter))/(len(actors_movies))
+		
+		actors_movies_fin[key] = list(set(val) & set(core_movies))
+		counter = counter + 1
 
 	# Generate movie-subMovie pairs and weights, write to file
 	for idx, movie in enumerate(core_movies): # [M1, M2, ... , MN] for N total movies
@@ -79,8 +97,8 @@ def main():
 
 		for actor in movies_actors_fin[movie]: # [A1,A2, ... , AM] for M total actors in movie n
 
-			for subMovie in actors_movies[actor]: # [sM1, sM2, ... , sMP] for P total movies for actor m
-				
+			for subMovie in actors_movies_fin[actor]: # [sM1, sM2, ... , sMP] for P total movies for actor m
+
 				personal_actors[subMovie] = len(movies_actors_fin[subMovie])
 				pair = (movie,subMovie)
 				alt_pair = (subMovie,movie)
