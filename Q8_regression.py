@@ -54,8 +54,9 @@ def main():
 	x_real_test = x_real_vals.values[0:len(x_real_vals)]
 
 	test_rating_predict = lin.predict(x_real_test)
+	test_pd['Rating'] = test_rating_predict
 	print test_pd
-	print test_rating_predict
+
 
 
 if __name__ == '__main__':
