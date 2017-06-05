@@ -6,9 +6,9 @@ rm(list=ls())
 library('igraph')
 
 # Set to appropriate working director
-setwd("~/Desktop/Project2/EE232E_Project2/project_2_data")
+setwd("~/Desktop/Project2/EE232E_Project2/data_files")
 
-load("~/Desktop/Project2/EE232E_Project2/.RData")
+load("~/Desktop/Project2/EE232E_Project2/data_files/test_train_Q8_clean")
 
 write.csv(train_feature, file = "train_features.csv")
 write.csv(test_feature, file = "test_features.csv")
