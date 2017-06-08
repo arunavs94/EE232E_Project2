@@ -13,14 +13,12 @@ cat("\n \n ############## Question 4 ############## \n")
 Graph.data = read.delim("data_files/node_10_list4.txt",sep = ",",header=FALSE,stringsAsFactors = FALSE) #generate from Q4.py
 colnames(Graph.data) = c("Node 1", "Node 2", "weights")
 
-Graph.data$weights[which(Graph.data$weights < 0)] =Graph.data$weights[which(Graph.data$weights < 0)]* -1
-
 g1 = graph.data.frame(Graph.data,directed = FALSE)
 
 g1_simple = simplify(g1,remove.loops = FALSE,edge.attr.comb = "first") #remove multiple edges
 
 # cat("Number of nodes in the movie network: ",vcount(g1_simple),"\n")
-# cat("Number of edges in the movie network: ",ecount(g1_simple),"\n") # R crashes on this
+# cat("Number of edges in the movie network: ",ecount(g1_simple),"\n") # R crashes on this line
 
 
 
